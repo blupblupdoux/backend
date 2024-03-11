@@ -24,6 +24,8 @@ server.listen(process.env.PORT || 3000)
 
 This is the basic code to start a node server
 
+The callback in the `createServer` method is executed each time the server is called. In this case we display the given message in the browser page.
+
 You can start the node server by running the command `node server`. 
 
 By default the server need to be restart after each change. To prevent that make sure nodemon is installed and run `nodemon server` instead of `node server`.
