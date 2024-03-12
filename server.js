@@ -1,8 +1,8 @@
 const http = require('http')
+const app = require ('./app')
+const port = process.env.PORT || 3000
 
-const server = http.createServer((req, res) => {
-  // INFO - this callaback is executed each time the server is called
-  res.end('Server response TEST!')
-})
+app.set('port', port)
+const server = http.createServer(app)
 
-server.listen(process.env.PORT || 3000)
+server.listen(port)
