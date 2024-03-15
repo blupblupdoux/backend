@@ -21,7 +21,7 @@ Here `Thing` is the name of the model.
 In the schema we pass all the property our object should include and we also pass some requirements. See full list at https://mongoosejs.com/docs/schematypes.html.
 
 
-## Persist to db
+## Create new item
 
 ```
 const thing = new Thing(yourData);
@@ -54,9 +54,7 @@ app.post('/api/stuff', (req, res, next) => {
 });
 ```
 
-## Retrieve from db
-
-### Get all
+## Get all items
 
 ```
 app.get('/api/stuff', (req, res, next) => {
@@ -66,12 +64,36 @@ app.get('/api/stuff', (req, res, next) => {
 });
 ```
 
-### Get one item
+## Get one item
 
 ```
 app.get('/api/stuff/:id', (req, res, next) => {
   Thing.findOne({ _id: req.params.id })
       .then(thing => res.status(200).json(thing))
       .catch(error => res.status(404).json({ error }));
+})
+```
+
+## Update one item
+
+```
+app.put('/api/stuff/:id', (req, res, next) => {
+  Thing.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'Objet modifié !'}))
+    .catch(error => res.status(400).json({ error }));
+});
+```
+
+Warning ! If you use the spread operator like that `{ ...req.body}` make sure the `_id` is the one from the db and not the javascript default one. 
+
+Here in this code we make sure to force the `_id` property to prevent that.
+
+## Delete one item
+
+```
+app.delete('/api/stuff/:id', (req, res, next) => {
+  Thing.deleteOne({_id: req.params.id})
+      .then(() => res.status(200).json({message: 'Object deleted!'}))
+      .catch(error => res.status(400).json({ error }));
 })
 ```
