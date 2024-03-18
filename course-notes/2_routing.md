@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 })
 ```
 
-## Routes
+## Routes (no router)
 
 ### Types
 
@@ -47,3 +47,51 @@ app.use(express.json())
 ```
 
 Then you can access the JSON content thanks to `req.body` in your middleware.
+
+## Routes (with router)
+
+If we put everything in `app.js` it'll be soon a mess. To prevent that we need to organize our routes thanks to express router.
+
+### Structure
+
+Routes files are stores in a `routes` directory.
+
+```
+// routes/stuff.js
+const express = require('express');
+const router = express.Router();
+
+// put here all routes
+
+module.exports = router;
+```
+
+
+```
+// app.js
+const stuffRoutes = require('./routes/stuff');
+app.use('/api/stuff', stuffRoutes);
+```
+
+In this case all routes inside the stuff.js file will be preceded by `/api/stuff`.
+
+### Routes syntaxe
+
+The syntaxe is almost the same than without the router. The only changes are : 
+
+- `app.xx` is replaced by `router.xx`
+
+- The path is adapted according to the parent path declared inside the `app.js` file
+
+```
+// BEFORE
+app.get('/api/stuff/:id', (req, res, next) => {
+  // your code
+});
+```
+```
+// AFTER
+router.get('/:id', (req, res, next) => {
+  // your code
+});
+```
