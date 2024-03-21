@@ -2,6 +2,8 @@
 
 ## Middleware
 
+### Syntaxe
+
 ```
 app.use((req, res, next) => {
   res.json({ message: 'Request sent!' });
@@ -14,6 +16,32 @@ This is a middleware, it is executed when requests are sent.
 If you have 10 middlewares, you'll pass in each one for each request.
 
 The `next` method allow to pass to the next middleware, not needed for the last middleware.
+
+### Structure
+
+Middlewares can be isolate in separate files for more readability. Thoses files should be store in a `middlewares` directory.
+
+```
+// middleware/myMiddleware.js
+
+module.exports = (req, res, next) => {
+  // my middleware logic
+}
+```
+We can use this middleware in 2 differents way:
+
+- As a global middleware
+```
+// app.js
+
+const myMiddleware = require('./middleware/myMiddleware')
+app.use(myMiddleware)
+```
+- As a specific middleware on a route
+```
+const myMiddleware = require('./middleware/myMiddleware')
+router.get('/api/myRoute', myMiddleware, myControllerMethod)
+```
 
 ## CORS Policies
 
